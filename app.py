@@ -2,6 +2,15 @@ import os
 import sys
 import json
 
+'''
+Botmetrics HTTPS Request:
+
+curl -X POST \
+-H "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE4MDIxODQyNjZ9.WB1iF5vk_uBIBfSsgu68CsqmXznU_9s03AdydacGOzo" \
+https://chatbotanalytics.herokuapp.com/bots/bad3c5ead22a/events \
+-d "format=json&event=json-message-payload"
+
+'''
 import requests
 from flask import Flask, request
 
@@ -39,6 +48,9 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
 
+                    url = 'https://chatbotanalytics.herokuapp.com/bots/bad3c5ead22a/events'
+                    headers = {'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE4MDIxODQyNjZ9.WB1iF5vk_uBIBfSsgu68CsqmXznU_9s03AdydacGOzo', 'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
+                    r = requests.post(url, data=json.dumps(data), headers=headers)
                     send_message(sender_id, "got it, thanks!")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
