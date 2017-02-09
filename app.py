@@ -49,8 +49,12 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
 
                     url = 'https://chatbotanalytics.herokuapp.com/bots/bad3c5ead22a/events'
+                    params = {
+                        "format": "json",
+                        "event": json.dumps(data)
+                    };
                     headers = {'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE4MDIxODQyNjZ9.WB1iF5vk_uBIBfSsgu68CsqmXznU_9s03AdydacGOzo', 'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
-                    r = requests.post(url, data=json.dumps(data), headers=headers)
+                    r = requests.post(url, params=params, headers=headers)
                     send_message(sender_id, "got it, thanks!")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
